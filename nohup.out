@@ -1,0 +1,97 @@
+Using TensorFlow backend.
+Loading C3D
+/home/mangolin/Desktop/five-video-classification-methods/models.py:198: UserWarning: Update your `Conv3D` call to the Keras 2 API: `Conv3D(64, (3, 3, 3), activation="relu", name="conv1", input_shape=(40, 80, 8..., strides=(1, 1, 1), padding="same")`
+  input_shape=self.input_shape))
+/home/mangolin/Desktop/five-video-classification-methods/models.py:200: UserWarning: Update your `MaxPooling3D` call to the Keras 2 API: `MaxPooling3D(pool_size=(1, 2, 2), strides=(1, 2, 2), name="pool1", padding="valid")`
+  border_mode='valid', name='pool1'))
+/home/mangolin/Desktop/five-video-classification-methods/models.py:204: UserWarning: Update your `Conv3D` call to the Keras 2 API: `Conv3D(128, (3, 3, 3), activation="relu", name="conv2", strides=(1, 1, 1), padding="same")`
+  subsample=(1, 1, 1)))
+/home/mangolin/Desktop/five-video-classification-methods/models.py:206: UserWarning: Update your `MaxPooling3D` call to the Keras 2 API: `MaxPooling3D(pool_size=(2, 2, 2), strides=(2, 2, 2), name="pool2", padding="valid")`
+  border_mode='valid', name='pool2'))
+/home/mangolin/Desktop/five-video-classification-methods/models.py:210: UserWarning: Update your `Conv3D` call to the Keras 2 API: `Conv3D(256, (3, 3, 3), activation="relu", name="conv3a", strides=(1, 1, 1), padding="same")`
+  subsample=(1, 1, 1)))
+/home/mangolin/Desktop/five-video-classification-methods/models.py:213: UserWarning: Update your `Conv3D` call to the Keras 2 API: `Conv3D(256, (3, 3, 3), activation="relu", name="conv3b", strides=(1, 1, 1), padding="same")`
+  subsample=(1, 1, 1)))
+/home/mangolin/Desktop/five-video-classification-methods/models.py:215: UserWarning: Update your `MaxPooling3D` call to the Keras 2 API: `MaxPooling3D(pool_size=(2, 2, 2), strides=(2, 2, 2), name="pool3", padding="valid")`
+  border_mode='valid', name='pool3'))
+/home/mangolin/Desktop/five-video-classification-methods/models.py:219: UserWarning: Update your `Conv3D` call to the Keras 2 API: `Conv3D(512, (3, 3, 3), activation="relu", name="conv4a", strides=(1, 1, 1), padding="same")`
+  subsample=(1, 1, 1)))
+/home/mangolin/Desktop/five-video-classification-methods/models.py:222: UserWarning: Update your `Conv3D` call to the Keras 2 API: `Conv3D(512, (3, 3, 3), activation="relu", name="conv4b", strides=(1, 1, 1), padding="same")`
+  subsample=(1, 1, 1)))
+/home/mangolin/Desktop/five-video-classification-methods/models.py:224: UserWarning: Update your `MaxPooling3D` call to the Keras 2 API: `MaxPooling3D(pool_size=(2, 2, 2), strides=(2, 2, 2), name="pool4", padding="valid")`
+  border_mode='valid', name='pool4'))
+/home/mangolin/Desktop/five-video-classification-methods/models.py:229: UserWarning: Update your `Conv3D` call to the Keras 2 API: `Conv3D(512, (3, 3, 3), activation="relu", name="conv5a", strides=(1, 1, 1), padding="same")`
+  subsample=(1, 1, 1)))
+/home/mangolin/Desktop/five-video-classification-methods/models.py:232: UserWarning: Update your `Conv3D` call to the Keras 2 API: `Conv3D(512, (3, 3, 3), activation="relu", name="conv5b", strides=(1, 1, 1), padding="same")`
+  subsample=(1, 1, 1)))
+/home/mangolin/Desktop/five-video-classification-methods/models.py:235: UserWarning: Update your `MaxPooling3D` call to the Keras 2 API: `MaxPooling3D(pool_size=(2, 2, 2), strides=(2, 2, 2), name="pool5", padding="valid")`
+  border_mode='valid', name='pool5'))
+_________________________________________________________________
+Layer (type)                 Output Shape              Param #   
+=================================================================
+conv1 (Conv3D)               (None, 40, 80, 80, 64)    5248      
+_________________________________________________________________
+pool1 (MaxPooling3D)         (None, 40, 40, 40, 64)    0         
+_________________________________________________________________
+conv2 (Conv3D)               (None, 40, 40, 40, 128)   221312    
+_________________________________________________________________
+pool2 (MaxPooling3D)         (None, 20, 20, 20, 128)   0         
+_________________________________________________________________
+conv3a (Conv3D)              (None, 20, 20, 20, 256)   884992    
+_________________________________________________________________
+conv3b (Conv3D)              (None, 20, 20, 20, 256)   1769728   
+_________________________________________________________________
+pool3 (MaxPooling3D)         (None, 10, 10, 10, 256)   0         
+_________________________________________________________________
+conv4a (Conv3D)              (None, 10, 10, 10, 512)   3539456   
+_________________________________________________________________
+conv4b (Conv3D)              (None, 10, 10, 10, 512)   7078400   
+_________________________________________________________________
+pool4 (MaxPooling3D)         (None, 5, 5, 5, 512)      0         
+_________________________________________________________________
+conv5a (Conv3D)              (None, 5, 5, 5, 512)      7078400   
+_________________________________________________________________
+conv5b (Conv3D)              (None, 5, 5, 5, 512)      7078400   
+_________________________________________________________________
+zero_padding3d_1 (ZeroPaddin (None, 5, 7, 7, 512)      0         
+_________________________________________________________________
+pool5 (MaxPooling3D)         (None, 2, 3, 3, 512)      0         
+_________________________________________________________________
+flatten_1 (Flatten)          (None, 9216)              0         
+_________________________________________________________________
+fc6 (Dense)                  (None, 4096)              37752832  
+_________________________________________________________________
+dropout_1 (Dropout)          (None, 4096)              0         
+_________________________________________________________________
+fc7 (Dense)                  (None, 4096)              16781312  
+_________________________________________________________________
+dropout_2 (Dropout)          (None, 4096)              0         
+_________________________________________________________________
+dense_1 (Dense)              (None, 18)                73746     
+=================================================================
+Total params: 82,263,826
+Trainable params: 82,263,826
+Non-trainable params: 0
+_________________________________________________________________
+None
+2019-02-08 18:17:45.961058: I tensorflow/core/platform/cpu_feature_guard.cc:141] Your CPU supports instructions that this TensorFlow binary was not compiled to use: AVX2 FMA
+Epoch 1/10
+Creating test generator with 0 samples.
+Traceback (most recent call last):
+  File "train.py", line 110, in <module>
+    main()
+  File "train.py", line 107, in main
+    load_to_memory=load_to_memory, batch_size=batch_size, nb_epoch=nb_epoch)
+  File "train.py", line 81, in train
+    workers=4)
+  File "/home/mangolin/.local/lib/python3.6/site-packages/keras/legacy/interfaces.py", line 91, in wrapper
+    return func(*args, **kwargs)
+  File "/home/mangolin/.local/lib/python3.6/site-packages/keras/engine/training.py", line 1418, in fit_generator
+    initial_epoch=initial_epoch)
+  File "/home/mangolin/.local/lib/python3.6/site-packages/keras/engine/training_generator.py", line 251, in fit_generator
+    callbacks.on_epoch_end(epoch, epoch_logs)
+  File "/home/mangolin/.local/lib/python3.6/site-packages/keras/callbacks.py", line 79, in on_epoch_end
+    callback.on_epoch_end(epoch, logs)
+  File "/home/mangolin/.local/lib/python3.6/site-packages/keras/callbacks.py", line 338, in on_epoch_end
+    self.progbar.update(self.seen, self.log_values)
+AttributeError: 'ProgbarLogger' object has no attribute 'log_values'

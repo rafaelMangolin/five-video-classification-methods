@@ -9,6 +9,7 @@ import os.path
 import sys
 import operator
 import threading
+from sklearn.preprocessing import MultiLabelBinarizer
 from processor import process_image
 from keras.utils import to_categorical
 
@@ -41,7 +42,7 @@ class DataSet():
         self.seq_length = seq_length
         self.class_limit = class_limit
         self.sequence_path = os.path.join('data', 'sequences')
-        self.max_frames = 300  # max number of frames a video can have for us to use it
+        self.max_frames = 100  # max number of frames a video can have for us to use it
 
         # Get the data.
         self.data = self.get_data()
@@ -61,6 +62,9 @@ class DataSet():
             reader = csv.reader(fin)
             data = list(reader)
 
+        for i in range(len(data)):
+            d = data[i]
+            d[1] = d[1].split('-')
         return data
 
     def clean_data(self):
@@ -69,7 +73,7 @@ class DataSet():
         data_clean = []
         for item in self.data:
             if int(item[3]) >= self.seq_length and int(item[3]) <= self.max_frames \
-                    and item[1] in self.classes:
+                    and set(item[1]).issubset(set(self.classes)):
                 data_clean.append(item)
 
         return data_clean
@@ -79,8 +83,8 @@ class DataSet():
         only return the classes we need."""
         classes = []
         for item in self.data:
-            if item[1] not in classes:
-                classes.append(item[1])
+            if not set(item[1]).issubset(set(classes)):
+                classes = list(set(classes + item[1]))
 
         # Sort them.
         classes = sorted(classes)
@@ -91,16 +95,20 @@ class DataSet():
         else:
             return classes
 
-    def get_class_one_hot(self, class_str):
+    def get_class_one_hot(self, class_arr):
         """Given a class as a string, return its number in the classes
         list. This lets us encode and one-hot it for training."""
+        
         # Encode it first.
-        label_encoded = self.classes.index(class_str)
+        mlb = MultiLabelBinarizer()
+        mlb.fit([self.classes])
+
+        label_hot = mlb.transform([class_arr])
 
         # Now one-hot it.
-        label_hot = to_categorical(label_encoded, len(self.classes))
+        # label_hot = to_categorical(label_encoded, len(self.classes))
 
-        assert len(label_hot) == len(self.classes)
+        assert len(label_hot[0]) == len(self.classes)
 
         return label_hot
 
@@ -237,7 +245,7 @@ class DataSet():
     def get_frames_for_sample(sample):
         """Given a sample row from the data file, get all the corresponding frame
         filenames."""
-        path = os.path.join('data', sample[0], sample[1])
+        path = os.path.join('data', sample[0], '-'.join(sample[1]))
         filename = sample[2]
         images = sorted(glob.glob(os.path.join(path, filename + '*jpg')))
         return images

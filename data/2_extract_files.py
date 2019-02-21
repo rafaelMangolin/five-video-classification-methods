@@ -4,6 +4,7 @@ the images from the videos and also create a data file we can use
 for training and testing later.
 """
 import csv
+import cv2
 import glob
 import os
 import os.path
@@ -28,10 +29,10 @@ def extract_files():
     folders = ['train', 'test']
 
     for folder in folders:
-        class_folders = glob.glob(os.path.join(folder, '*'))
+        class_folders = glob.glob(os.path.join(folder, 'Dr*'))
 
         for vid_class in class_folders:
-            class_files = glob.glob(os.path.join(vid_class, '*.avi'))
+            class_files = glob.glob(os.path.join(vid_class, '*.mp4'))
 
             for video_path in class_files:
                 # Get the parts of the file.
@@ -41,21 +42,44 @@ def extract_files():
 
                 # Only extract if we haven't done it yet. Otherwise, just get
                 # the info.
-                if not check_already_extracted(video_parts):
+                # if not check_already_extracted(video_parts):
+
+                #     cap = cv2.VideoCapture("{0}/{1}/{2}.mp4".format(train_or_test,classname,filename_no_ext))
+                #     length = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
+                #     fps = cap.get(cv2.CAP_PROP_FPS)
+                #     if fps != 0:
+                #         print('Started %s %s' % (filename, classname))
+                #         duration = length/fps
+                #         duration *= 2
+                #         frequency = int(length/duration)
+
+                #         success,image = cap.read()
+                #         count = 0
+                #         rcount = 0
+                #         success = True
+                #         while success:
+                #             success,image = cap.read()
+                #             if(rcount == frequency):
+                #                 cv2.imwrite("{0}/{1}/{2}_{3}.jpg".format(train_or_test,classname,filename_no_ext,count), image)
+                #                 count += 1
+                #                 rcount = 0
+                #             rcount += 1
+
+                #         data_file += 1
                     # Now extract it.
-                    src = os.path.join(train_or_test, classname, filename)
-                    dest = os.path.join(train_or_test, classname,
-                        filename_no_ext + '-%04d.jpg')
-                    call(["ffmpeg", "-i", src, dest])
+                    # src = os.path.join(train_or_test, classname, filename)
+                    # dest = os.path.join(train_or_test, classname,
+                    #     filename_no_ext + '-%04d.jpg')
+                    # call(["ffmpeg", "-i", src, dest])
 
                 # Now get how many frames it is.
                 nb_frames = get_nb_frames_for_video(video_parts)
 
                 data_file.append([train_or_test, classname, filename_no_ext, nb_frames])
 
-                print("Generated %d frames for %s" % (nb_frames, filename_no_ext))
+                print("Generated %s frames for %s %s" % (nb_frames,filename_no_ext,classname))
 
-    with open('data_file.csv', 'w') as fout:
+    with open('data_file_dr.csv', 'w+') as fout:
         writer = csv.writer(fout)
         writer.writerows(data_file)
 
@@ -83,7 +107,7 @@ def check_already_extracted(video_parts):
     """Check to see if we created the -0001 frame of this file."""
     train_or_test, classname, filename_no_ext, _ = video_parts
     return bool(os.path.exists(os.path.join(train_or_test, classname,
-                               filename_no_ext + '-0001.jpg')))
+                               filename_no_ext + '_0.jpg')))
 
 def main():
     """
